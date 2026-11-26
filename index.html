@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cadastro de Motores | Projeto CentroWEG - SENAI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="cabecalho">
+        <div class="container">
+            <span class="badge-local">SENAI • CentroWEG • Jaraguá do Sul - SC</span>
+            <h1>Sistema de Cadastro de Motores em Python</h1>
+            <p class="subtitulo">Documentação de projeto monolítico utilizando arrays (listas) e modularização por funções.</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Seção de Contexto / Onde foi feito -->
+        <section class="card contexto-card">
+            <h2>Sobre o Projeto e Ambiente de Desenvolvimento</h2>
+            <p>
+                Este software de console foi desenvolvido durante as atividades práticas de programação realizadas no 
+                <strong>CentroWEG</strong>, a unidade educacional do <strong>SENAI</strong> integrada ao parque fabril da 
+                <strong>WEG</strong> em <strong>Jaraguá do Sul, Santa Catarina</strong>.
+            </p>
+            <p>
+                O objetivo do exercício é aplicar conceitos fundamentais de lógica de programação, estruturas de dados em memória 
+                e operações básicas de gerenciamento (CRUD) aplicadas ao contexto industrial de motores elétricos.
+            </p>
+        </section>
+
+        <!-- Seção de Arquitetura do Código -->
+        <section class="card">
+            <h2>Arquitetura e Funcionamento do Código</h2>
+            <p>
+                O código foi estruturado de forma monolítica (em um único arquivo <code>cadastro_motores.py</code>) para facilitar 
+                testes rápidos, dispensando o uso de bancos de dados externos.
+            </p>
+
+            <div class="grid-funcionalidades">
+                <div class="item-funcao">
+                    <h3>Armazenamento em Array (<code>motores = []</code>)</h3>
+                    <p>Uma lista global em memória atua como banco de dados temporário, armazenando cada motor como um dicionário com chaves para <em>código, marca, potência, tensão e RPM</em>.</p>
+                </div>
+
+                <div class="item-funcao">
+                    <h3><code>cadastrar_motor()</code></h3>
+                    <p>Coleta os dados técnicos via terminal e realiza uma validação prévia percorrendo a lista para impedir a duplicidade de códigos/IDs.</p>
+                </div>
+
+                <div class="item-funcao">
+                    <h3><code>listar_motores()</code></h3>
+                    <p>Verifica se o array possui registros e itera sobre ele usando <code>enumerate()</code> para exibir todos os motores cadastrados de forma organizada.</p>
+                </div>
+
+                <div class="item-funcao">
+                    <h3><code>buscar_motor()</code> &amp; <code>remover_motor()</code></h3>
+                    <p>Localizam um motor específico através do seu identificador único para exibir suas especificações completas ou removê-lo da lista com <code>pop()</code>.</p>
+                </div>
+
+                <div class="item-funcao">
+                    <h3><code>menu()</code></h3>
+                    <p>Controla o fluxo principal da aplicação através de um laço infinito (<code>while True</code>), direcionando o usuário para a função escolhida até o encerramento.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção com o Código-Fonte -->
+        <section class="card">
+            <h2>Código-Fonte Completo (<code>cadastro_motores.py</code>)</h2>
+            <p>Abaixo está a implementação completa utilizada nos testes em laboratório:</p>
+            
+            <pre><code># Lista (array) para armazenar os motores em memória
+motores = []
+
+def cadastrar_motor():
+    print("\n--- Cadastrar Novo Motor ---")
+    codigo = input("Código/ID do motor: ").strip()
+    
+    # Verifica se o código já existe
+    for motor in motores:
+        if motor["codigo"] == codigo:
+            print("Erro: Já existe um motor cadastrado com este código.")
+            return
+
+    marca = input("Marca (ex: WEG, Siemens): ").strip()
+    potencia = input("Potência (ex: 5 CV, 10 HP): ").strip()
+    tensao = input("Tensão (ex: 220V/380V): ").strip()
+    rpm = input("Rotação (RPM): ").strip()
+
+    motor = {
+        "codigo": codigo,
+        "marca": marca,
+        "potencia": potencia,
+        "tensao": tensao,
+        "rpm": rpm
+    }
+    
+    motores.append(motor)
+    print(f"Motor '{codigo}' cadastrado com sucesso!")
+
+def listar_motores():
+    print("\n--- Lista de Motores Cadastrados ---")
+    if not motores:
+        print("Nenhum motor cadastrado no momento.")
+        return
+
+    for i, motor in enumerate(motores, start=1):
+        print(f"{i}. Cód: {motor['codigo']} | Marca: {motor['marca']} | "
+              f"Potência: {motor['potencia']} | Tensão: {motor['tensao']} | RPM: {motor['rpm']}")
+
+def buscar_motor
